@@ -17,6 +17,9 @@ public class DBConnecter {
     private static String user = "m-takada";
     private static String password = "m-takada";
 
+    /**********************
+     * DBコネクション処理.
+     **********************/
     public Connection getConnection() {
         Connection con = null;
 

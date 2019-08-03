@@ -4,11 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>メニュー画面</title>
+<title>登録成功</title>
 </head>
 <body>
-	<h1>メニュー画面です</h1>
-	<p><input type="button" value="登録処理" onClick="location.href='${pageContext.request.contextPath}/Entry'"></p>
-	<p><input type="button" value="ログイン画面に戻る" onClick="location.href='./LoginAction.jsp'"></p>
+	<h1>登録できました！！</h1>
+	<p><input type="button" value="メニューへ戻る" onClick="location.href='${pageContext.request.contextPath}/Menu'"></p>
 </body>
 </html>

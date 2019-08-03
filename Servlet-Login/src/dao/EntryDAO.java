@@ -1,5 +1,5 @@
 /********************
- * ログインDAOクラス.
+ * 登録DAOクラス.
  *
  * @author m-takada
  ********************/
@@ -7,26 +7,23 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import dto.User;
 import util.DBConnecter;
 import util.MessageEncryption;
 
-public class LoginDAO {
+public class EntryDAO {
     /******************************
-     * ログイン認証処理.
+     * 登録処理.
      *
      * @param name ユーザーID
      * @param password パスワード
      ******************************/
-    public User select(String name, String password) throws SQLException {
-        User dto = new User();
+    public int Insert(String name, String password) throws SQLException {
+        int result = -1;
         DBConnecter db = new DBConnecter();
         Connection con = db.getConnection();
-        String sql = "select * from usermaster where UserID=? and PassWord=?";
-
+        String sql = "insert into usermaster values (?, ?)";
         try {
             // 暗号化
             MessageEncryption mesencryption = new MessageEncryption();
@@ -37,17 +34,15 @@ public class LoginDAO {
             ps.setString(1, name);
             ps.setString(2, md5);
 
-            ResultSet rs = ps.executeQuery();
+            result = ps.executeUpdate();
 
-            if (rs.next()) {
-                dto.setUserid(rs.getString("UserID"));
-                dto.setPassword(rs.getString("PassWord"));
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             con.close();
         }
-        return dto;
+
+        return result;
     }
+
 }

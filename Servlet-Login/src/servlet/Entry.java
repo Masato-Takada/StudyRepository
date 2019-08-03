@@ -10,20 +10,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.LoginDAO;
-import dto.User;
+import dao.EntryDAO;
 
 /**
- * Servlet implementation class LoginAction
+ * Servlet implementation class Entry
  */
-@WebServlet("/LoginAction")
-public class LoginAction extends HttpServlet {
+@WebServlet("/Entry")
+public class Entry extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginAction() {
+    public Entry() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,6 +32,11 @@ public class LoginAction extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // 登録ページ
+        String page = "/WEB-INF/jsp/Entry.jsp";
+
+        RequestDispatcher rd = request.getRequestDispatcher(page);
+        rd.forward(request, response);
 
     }
 
@@ -47,24 +51,23 @@ public class LoginAction extends HttpServlet {
 
         // 画面URL
         String page = "";
-        String errorpage = "/WEB-INF/jsp/Error.jsp";
-        String menupage = "/WEB-INF/jsp/Menu.jsp";
+        String successpage = "/WEB-INF/jsp/EntrySuccess.jsp";
+        String errorpage = "/WEB-INF/jsp/EntryError.jsp";
 
-        LoginDAO dao = new LoginDAO();
-        User dto = new User();
+        EntryDAO dao = new EntryDAO();
+        int result = 0;
 
         try {
-            dto = dao.select(userid, password);
+            // 登録処理
+            result = dao.Insert(userid, password);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        // 画面遷移
-        if (dto.getUserid() != null && dto.getPassword() != null) {
-            // ログイン成功
-            page = menupage;
+        if (result > 0) {
+            // 成功
+            page = successpage;
         } else {
-            // ログイン失敗
+            // 失敗
             page = errorpage;
         }
         RequestDispatcher rd = request.getRequestDispatcher(page);
